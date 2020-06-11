@@ -69,24 +69,26 @@
         >
           <div class="extra-wrapper" slot="tabBarExtraContent">
             <div class="extra-item">
-              <a>今日</a>
-              <a>本周</a>
-              <a>本月</a>
-              <a>本年</a>
+              <a-radio-group defaultValue="a">
+                  <a-radio-button value="a">1小时</a-radio-button>
+                  <a-radio-button value="b">1天</a-radio-button>
+                  <a-radio-button value="c">7天</a-radio-button>
+                  <a-radio-button value="d">30天</a-radio-button>
+                </a-radio-group>
             </div>
             <a-range-picker :style="{width: '256px'}" />
           </div>
-          <a-tab-pane loading="true" tab="销售额" key="1">
+          <a-tab-pane loading="true" tab="设备消息" key="1">
             <a-row>
-              <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar :data="barData" title="销售额排行" />
+              <a-col :xl="24" :lg="12" :md="12" :sm="24" :xs="24">
+                <bar :data="barData" />
               </a-col>
-              <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
+              <!-- <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
                 <rank-list title="门店销售排行榜" :list="rankList" />
-              </a-col>
+              </a-col> -->
             </a-row>
           </a-tab-pane>
-          <a-tab-pane tab="访问量" key="2">
+          <!-- <a-tab-pane tab="访问量" key="2">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
                 <bar :data="barData2" title="销售额趋势" />
@@ -95,92 +97,25 @@
                 <rank-list title="门店销售排行榜" :list="rankList" />
               </a-col>
             </a-row>
-          </a-tab-pane>
+          </a-tab-pane> -->
         </a-tabs>
       </div>
     </a-card>
 
     <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="!isMobile && 'desktop'">
       <a-row :gutter="24" type="flex" :style="{ marginTop: '24px' }">
-        <a-col :xl="12" :lg="24" :md="24" :sm="24" :xs="24">
-          <a-card :loading="loading" :bordered="false" title="线上热门搜索" :style="{ height: '100%' }">
-            <a-dropdown :trigger="['click']" placement="bottomLeft" slot="extra">
-              <a class="ant-dropdown-link" href="#">
-                <a-icon type="ellipsis" />
-              </a>
-              <a-menu slot="overlay">
-                <a-menu-item>
-                  <a href="javascript:;">操作一</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a href="javascript:;">操作二</a>
-                </a-menu-item>
-              </a-menu>
-            </a-dropdown>
-            <a-row :gutter="68">
-              <a-col :xs="24" :sm="12" :style="{ marginBottom: ' 24px'}">
-                <number-info :total="12321" :sub-total="17.1">
-                  <span slot="subtitle">
-                    <span>搜索用户数</span>
-                    <a-tooltip title="指标说明" slot="action">
-                      <a-icon type="info-circle-o" :style="{ marginLeft: '8px' }" />
-                    </a-tooltip>
-                  </span>
-                </number-info>
-                <!-- miniChart -->
-                <div>
-                  <mini-smooth-area
-                    :style="{ height: '45px' }"
-                    :dataSource="searchUserData"
-                    :scale="searchUserScale"
-                  />
-                </div>
-              </a-col>
-              <a-col :xs="24" :sm="12" :style="{ marginBottom: ' 24px'}">
-                <number-info :total="2.7" :sub-total="26.2" status="down">
-                  <span slot="subtitle">
-                    <span>人均搜索次数</span>
-                    <a-tooltip title="指标说明" slot="action">
-                      <a-icon type="info-circle-o" :style="{ marginLeft: '8px' }" />
-                    </a-tooltip>
-                  </span>
-                </number-info>
-                <!-- miniChart -->
-                <div>
-                  <mini-smooth-area
-                    :style="{ height: '45px' }"
-                    :dataSource="searchUserData"
-                    :scale="searchUserScale"
-                  />
-                </div>
-              </a-col>
-            </a-row>
-            <div class="ant-table-wrapper">
-              <a-table
-                row-key="index"
-                size="small"
-                :columns="searchTableColumns"
-                :dataSource="searchData"
-                :pagination="{ pageSize: 5 }"
-              >
-                <span slot="range" slot-scope="text, record">
-                  <trend :flag="record.status === 0 ? 'up' : 'down'">{{ text }}%</trend>
-                </span>
-              </a-table>
-            </div>
-          </a-card>
-        </a-col>
-        <a-col :xl="12" :lg="24" :md="24" :sm="24" :xs="24">
+
+        <a-col :xl="10" :lg="24" :md="24" :sm="24" :xs="24">
           <a-card
             class="antd-pro-pages-dashboard-analysis-salesCard"
             :loading="loading"
             :bordered="false"
-            title="销售额类别占比"
+            title="各型号设备占比"
             :style="{ height: '100%' }"
           >
             <div slot="extra" style="height: inherit;">
               <!-- style="bottom: 12px;display: inline-block;" -->
-              <span class="dashboard-analysis-iconGroup">
+              <!-- <span class="dashboard-analysis-iconGroup">
                 <a-dropdown :trigger="['click']" placement="bottomLeft">
                   <a-icon type="ellipsis" class="ant-dropdown-link" />
                   <a-menu slot="overlay">
@@ -192,16 +127,15 @@
                     </a-menu-item>
                   </a-menu>
                 </a-dropdown>
-              </span>
+              </span> -->
               <div class="analysis-salesTypeRadio">
                 <a-radio-group defaultValue="a">
-                  <a-radio-button value="a">全部渠道</a-radio-button>
-                  <a-radio-button value="b">线上</a-radio-button>
-                  <a-radio-button value="c">门店</a-radio-button>
+                  <a-radio-button value="a">全部设备</a-radio-button>
+                  <a-radio-button value="b">在线</a-radio-button>
+                  <a-radio-button value="c">离线</a-radio-button>
                 </a-radio-group>
               </div>
             </div>
-            <h4>销售额</h4>
             <div>
               <!-- style="width: calc(100% - 240px);" -->
               <div>
@@ -214,6 +148,49 @@
                   <v-coord type="theta" :radius="0.75" :innerRadius="0.6" />
                 </v-chart>
               </div>
+            </div>
+          </a-card>
+        </a-col>
+        <a-col :xl="14" :lg="24" :md="24" :sm="24" :xs="24">
+          <a-card :loading="loading" :bordered="false" :body-style="{padding: '0'}">
+            <div class="salesCard">
+              <a-tabs
+                default-active-key="1"
+                size="large"
+                :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}"
+              >
+                <div class="extra-wrapper" slot="tabBarExtraContent">
+                  <div class="extra-item">
+                    <a-radio-group defaultValue="a">
+                        <a-radio-button value="a">1小时</a-radio-button>
+                        <a-radio-button value="b">1天</a-radio-button>
+                        <a-radio-button value="c">7天</a-radio-button>
+                        <a-radio-button value="d">30天</a-radio-button>
+                      </a-radio-group>
+                  </div>
+                  <a-range-picker :style="{width: '256px'}" />
+                </div>
+                <a-tab-pane loading="true" tab="设备消息量" key="1">
+                  <a-row>
+                    <a-col :xl="24" :lg="12" :md="12" :sm="24" :xs="24">
+                      <bar :data="barData" />
+                    </a-col>
+                    <!-- <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
+                      <rank-list title="门店销售排行榜" :list="rankList" />
+                    </a-col> -->
+                  </a-row>
+                </a-tab-pane>
+                <!-- <a-tab-pane tab="访问量" key="2">
+                  <a-row>
+                    <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
+                      <bar :data="barData2" title="销售额趋势" />
+                    </a-col>
+                    <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
+                      <rank-list title="门店销售排行榜" :list="rankList" />
+                    </a-col>
+                  </a-row>
+                </a-tab-pane> -->
+              </a-tabs>
             </div>
           </a-card>
         </a-col>
@@ -426,15 +403,15 @@ export default {
     }
   },
   mounted () {
-    this.$connect(wsUrl)
     setTimeout(() => {
       this.watchServerInfo()
-    }, 1200)
+    }, 1000)
   },
   created () {
+    this.$connect(wsUrl)
     setTimeout(() => {
       this.loading = !this.loading
-    }, 1000)
+    }, 500)
   },
   beforeDestroy () {
     this.$disconnect()
@@ -482,7 +459,7 @@ export default {
 }
 .analysis-salesTypeRadio {
   position: absolute;
-  right: 54px;
+  right: 24px;
   bottom: 12px;
 }
 </style>

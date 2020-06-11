@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Message from '@/utils/message'
+// import Message from '@/utils/message'
 
 export default {
     state: () => ({
@@ -17,27 +17,27 @@ export default {
             Vue.prototype.$socket = event.currentTarget
             state.connected = true
 
-            // 心跳消息
-            state.heartBeatTimer = setInterval(() => {
-                const message = Message.createHeartbeatMessage()
-                state.connected && Vue.prototype.$socket.sendObj(message)
-            }, state.heartBeatInterval)
+            // // 心跳消息
+            // state.heartBeatTimer = setInterval(() => {
+            //     const message = Message.createHeartbeatMessage()
+            //     state.connected && Vue.prototype.$socket.sendObj(message)
+            // }, state.heartBeatInterval)
 
-            console.log('消息系统连接成功: ' + new Date())
+            console.log('服务器连接成功: ' + new Date())
         },
         SOCKET_ONCLOSE (state, event) {
             state.connected = false
 
-            clearInterval(state.heartBeatTimer)
-            state.heartBeatTimer = 0
+            // clearInterval(state.heartBeatTimer)
+            // state.heartBeatTimer = 0
 
-            console.log('消息系统连接已断开: ' + new Date())
+            console.log('服务器连接已断开: ' + new Date())
         },
         SOCKET_ONERROR (state, event) {
             console.error(state, event)
         },
         SOCKET_RECONNECT (state, count) {
-            console.info('消息系统重连中...', state, count)
+            console.info('服务器重连中...', state, count)
         },
         SOCKET_RECONNECT_ERROR (state) {
             state.reconnectError = true
