@@ -65,8 +65,7 @@
         <a-tabs
           default-active-key="1"
           size="large"
-          :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}"
-        >
+          :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
           <div class="extra-wrapper" slot="tabBarExtraContent">
             <div class="extra-item">
               <a-radio-group defaultValue="a">
@@ -83,21 +82,8 @@
               <a-col :xl="24" :lg="12" :md="12" :sm="24" :xs="24">
                 <bar :data="barData" />
               </a-col>
-              <!-- <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <rank-list title="门店销售排行榜" :list="rankList" />
-              </a-col> -->
             </a-row>
           </a-tab-pane>
-          <!-- <a-tab-pane tab="访问量" key="2">
-            <a-row>
-              <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar :data="barData2" title="销售额趋势" />
-              </a-col>
-              <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <rank-list title="门店销售排行榜" :list="rankList" />
-              </a-col>
-            </a-row>
-          </a-tab-pane> -->
         </a-tabs>
       </div>
     </a-card>
@@ -114,20 +100,6 @@
             :style="{ height: '100%' }"
           >
             <div slot="extra" style="height: inherit;">
-              <!-- style="bottom: 12px;display: inline-block;" -->
-              <!-- <span class="dashboard-analysis-iconGroup">
-                <a-dropdown :trigger="['click']" placement="bottomLeft">
-                  <a-icon type="ellipsis" class="ant-dropdown-link" />
-                  <a-menu slot="overlay">
-                    <a-menu-item>
-                      <a href="javascript:;">操作一</a>
-                    </a-menu-item>
-                    <a-menu-item>
-                      <a href="javascript:;">操作二</a>
-                    </a-menu-item>
-                  </a-menu>
-                </a-dropdown>
-              </span> -->
               <div class="analysis-salesTypeRadio">
                 <a-radio-group defaultValue="a">
                   <a-radio-button value="a">全部设备</a-radio-button>
@@ -137,12 +109,24 @@
               </div>
             </div>
             <div>
-              <!-- style="width: calc(100% - 240px);" -->
+              <span>数量统计</span>
+              <a-select
+                mode="multiple"
+                :default-value="['a1', 'b2']"
+                style="width: 60%;float:right;"
+                placeholder="请选择设备型号"
+                @change="handleChange"
+              >
+                <a-select-option v-for="i in 25" :key="(i + 9).toString(36) + i">
+                  {{ (i + 9).toString(36) + i }}
+                </a-select-option>
+              </a-select>
+            </div>
+            <div>
               <div>
                 <v-chart :force-fit="true" :height="405" :data="pieData" :scale="pieScale">
                   <v-tooltip :showTitle="false" data-key="item*percent" />
                   <v-axis />
-                  <!-- position="right" :offsetX="-140" -->
                   <v-legend data-key="item" />
                   <v-pie position="percent" color="item" :vStyle="pieStyle" />
                   <v-coord type="theta" :radius="0.75" :innerRadius="0.6" />
@@ -172,24 +156,28 @@
                 </div>
                 <a-tab-pane loading="true" tab="设备消息量" key="1">
                   <a-row>
+                    <a-col :xl="23" :lg="12" :md="12" :sm="24" :xs="24">
+                      <div>
+                        <a-select
+                          mode="multiple"
+                          :default-value="['a1', 'b2']"
+                          style="width: 60%;float:right;"
+                          placeholder="请选择设备型号"
+                          @change="handleChange"
+                        >
+                          <a-select-option v-for="i in 25" :key="(i + 9).toString(36) + i">
+                            {{ (i + 9).toString(36) + i }}
+                          </a-select-option>
+                        </a-select>
+                      </div>
+                    </a-col>
+                  </a-row>
+                  <a-row>
                     <a-col :xl="24" :lg="12" :md="12" :sm="24" :xs="24">
                       <bar :data="barData" />
                     </a-col>
-                    <!-- <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                      <rank-list title="门店销售排行榜" :list="rankList" />
-                    </a-col> -->
                   </a-row>
                 </a-tab-pane>
-                <!-- <a-tab-pane tab="访问量" key="2">
-                  <a-row>
-                    <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                      <bar :data="barData2" title="销售额趋势" />
-                    </a-col>
-                    <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                      <rank-list title="门店销售排行榜" :list="rankList" />
-                    </a-col>
-                  </a-row>
-                </a-tab-pane> -->
               </a-tabs>
             </div>
           </a-card>
@@ -206,7 +194,6 @@ import {
   MiniArea,
   MiniBar,
   MiniProgress,
-  RankList,
   Bar,
   Trend,
   NumberInfo,
@@ -229,14 +216,6 @@ for (let i = 0; i < 12; i += 1) {
   barData2.push({
     x: `${i + 1}月`,
     y: Math.floor(Math.random() * 1000) + 200
-  })
-}
-
-const rankList = []
-for (let i = 0; i < 7; i++) {
-  rankList.push({
-    name: '白鹭岛 ' + (i + 1) + ' 号店',
-    total: 1234.56 - i * 100
   })
 }
 
@@ -331,7 +310,6 @@ export default {
     MiniArea,
     MiniBar,
     MiniProgress,
-    RankList,
     Bar,
     Trend,
     NumberInfo,
@@ -345,9 +323,6 @@ export default {
       loading: true,
       cpuUsage: 0,
       memeryUsage: { usage: 0, max: 8 },
-
-      rankList,
-
       // 搜索用户数
       searchUserData,
       searchUserScale,
